@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klenso: free up space on Windows, safely</title>
+<meta name="description" content="Klenso finds large files, duplicates and old developer junk on your Windows PC. Nothing goes until you say so. A$19.99 one-time.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="/">Klenso</a>
+  <nav><a href="#how">How it works</a><a href="#safe">What it touches</a><a href="#buy">Buy</a><a href="#faq">FAQ</a></nav>
+</div></header>
+
+<main>
+<div class="wrap hero">
+  <h1>Free up space. Nothing goes until you say so.</h1>
+  <p class="lead">A careful disk cleaner for Windows. It shows you what is eating your drive, and you decide what goes.</p>
+  <div class="cta">
+    <a class="btn" id="download" href="#buy">Download (free scan)</a>
+    <button class="btn ghost" id="buy-top" type="button">Buy licence, A$19.99</button>
+  </div>
+  <p class="note">The scan is free and report-only. Cleaning needs a licence. One payment, no subscription.</p>
+</div>
+
+<section id="how"><div class="wrap">
+  <h2>What it finds</h2>
+  <div class="grid">
+    <div class="card"><h3>Large files and real duplicates</h3><p>Duplicates are checked by content, not by name. Klenso never removes the last copy.</p></div>
+    <div class="card"><h3>Old project junk</h3><p>Forgotten <code>node_modules</code>, build folders and virtual environments you haven't touched in 90 days. They rebuild themselves.</p></div>
+    <div class="card"><h3>Developer caches</h3><p>Gradle, npm, pip and pub caches, and your Temp folder. Often several gigabytes, and they refill on their own.</p></div>
+  </div>
+</div></section>
+
+<section id="safe"><div class="wrap narrow">
+  <h2>What Klenso will and won't touch</h2>
+  <ul class="plain">
+    <li>It only looks in your own folders (Downloads, Desktop, Documents, Videos, Pictures, Music) and a fixed list of cache folders, plus project folders under your user profile.</li>
+    <li>Your own files go to the Recycle Bin, so you can undo. Only folders that rebuild themselves are cleared for good, and Klenso labels them.</li>
+    <li>It never enters Windows, Program Files, AppData (apart from the named caches), <code>.git</code>, <code>.ssh</code> or cloud-only OneDrive files.</li>
+    <li>Signing keys, certificates and password databases (<code>.jks</code>, <code>.pem</code>, <code>.pfx</code>, <code>.kdbx</code> and similar) are never offered for removal.</li>
+    <li>Every item is re-checked right before it's removed. Anything that changed since the scan is skipped.</li>
+    <li>No registry cleaning, no "speed boosters", no scare screens.</li>
+  </ul>
+  <p class="note">Klenso is careful, but no tool can promise it will never remove something you wanted. Keep backups of anything important.</p>
+</div></section>
+
+<section id="buy"><div class="wrap narrow">
+  <h2>One price</h2>
+  <p class="price">A$19.99</p>
+  <p>One-time. Covers every 1.x update, on your own devices (up to 3). A future 2.0 would be a paid upgrade, and you'd be emailed first. Safety fixes are always free.</p>
+  <p><button class="btn" id="buy" type="button">Buy a licence</button></p>
+  <p class="note">Payment is handled by Paddle, our payment provider. Your licence key is emailed to you after payment. Activation needs the internet once.</p>
+  <div id="env-banner" class="status" hidden>Test mode: no real payment is taken on this page.</div>
+</div></section>
+
+<section id="privacy"><div class="wrap narrow">
+  <h2>Private by design</h2>
+  <p>Klenso works offline and collects no usage data. It never uploads file names or paths. It uses the internet only to activate your licence (your key and a random device ID) and when you click "Check for updates". <a href="privacy.html">Read the privacy page</a>.</p>
+</div></section>
+
+<section id="faq"><div class="wrap narrow">
+  <h2>Questions</h2>
+  <details><summary>Can I try it first?</summary><p>Yes. The scan is free and shows exactly what Klenso could clean. Cleaning needs a licence.</p></details>
+  <details><summary>Do you offer refunds?</summary><p>We don't refund for change of mind, which is why the scan is free. If Klenso doesn't work as described, your rights under Australian Consumer Law apply and we'll sort it out. See the <a href="terms.html">terms</a>.</p></details>
+  <details><summary>How many PCs can I use it on?</summary><p>Up to 3 of your own devices per licence. Moving to a new PC? Email support and we'll reset it.</p></details>
+  <details><summary>Windows says the app is unrecognised.</summary><p>Early releases aren't code-signed yet, so Windows SmartScreen may warn. Choose More info, then Run anyway. Each download page shows its SHA-256 hash so you can check the file.</p></details>
+  <details><summary>Is it cracked-proof?</summary><p>No program running on your own PC can be. Licences are signed, tied to your email and revocable, which is enough to keep honest people honest.</p></details>
+  <details><summary>Support</summary><p>Email <a href="mailto:support@sardarjidevelopers.com">support@sardarjidevelopers.com</a>.</p></details>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:support@sardarjidevelopers.com">Support</a>
+  <p>Klenso is a product of Sardarjidevelopers, Australia.</p>
+</div></footer>
+
+<script src="config.js"></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+(function () {
+  var cfg = window.KLENSO || {};
+  var dl = document.getElementById("download");
+  if (cfg.downloadUrl) { dl.href = cfg.downloadUrl; }
+  else { dl.textContent = "Download (launching soon)"; dl.setAttribute("aria-disabled", "true"); dl.addEventListener("click", function (e) { e.preventDefault(); }); }
+  if (cfg.env === "sandbox") document.getElementById("env-banner").hidden = false;
+
+  var ready = false;
+  try {
+    if (window.Paddle) {
+      if (cfg.env === "sandbox") Paddle.Environment.set("sandbox");
+      Paddle.Initialize({ token: cfg.token });
+      ready = true;
+    }
+  } catch (e) { ready = false; }
+
+  function open() {
+    if (!ready) { window.location.href = "mailto:support@sardarjidevelopers.com?subject=Klenso%20licence"; return; }
+    Paddle.Checkout.open({
+      items: [{ priceId: cfg.priceId, quantity: 1 }],
+      settings: { displayMode: "overlay", theme: "light", locale: "en", successUrl: window.location.origin + "/thanks.html" }
+    });
+  }
+  document.getElementById("buy").addEventListener("click", open);
+  document.getElementById("buy-top").addEventListener("click", open);
+})();
+</script>
+</body>
+</html>
